@@ -1,0 +1,38 @@
+.split-container {
+    display: flex;
+    padding-top: 50px; /* STOP NAVBAR FROM OVERLAPPING */
+}
+
+.scrollable {
+    overflow-y: auto;
+    flex: 1;
+    padding: 20px;
+    max-width: 20%;
+}
+
+.stationary {
+    flex: 1;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    align-items: center;
+    height: 100vh;
+}
+
+/* GRID SECTION */
+
+.grid-container{
+    border: 2px solid black;
+    height: fit-content;
+    width: fit-content;
+    display: grid;
+}
+
+.cellBorder{
+    border: 1px solid #2d2d2d;
+}
+
+.cellHover{
+    background-color: #b9b9b9;
+}
