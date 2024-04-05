@@ -4,3 +4,7 @@
 $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();
 });
+
+function testing(something){
+  console.log(something);
+}

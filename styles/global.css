@@ -1,4 +1,25 @@
 /* GLOBAL STYLES */
+.split-container {
+    display: flex;
+    padding-top: 60px; /* STOP NAVBAR FROM OVERLAPPING */
+}
+
+.scrollable {
+    overflow-y: auto;
+    flex: 1;
+    padding: 20px;
+    max-width: 20%;
+}
+
+.stationary {
+    flex: 1;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    align-items: center;
+    height: 100vh;
+}
 
 nav {
     background-color: #6ca7ff;
@@ -7,8 +28,4 @@ nav {
 .separator-horizontal {
     border-top: 1px solid #2d2d2d;
     margin: 20px 0;
-}
-
-body > :nth-child(2) {
-    padding-top: 60px; /* STOP NAVBAR FROM OVERLAPPING */
 }

@@ -128,14 +128,6 @@ function addCellListeners(cell){
     });
 }
 
-function serializeCell(cell){
-    let obj = {};
-    obj.id = cell.id;
-    obj.color = cell.style.backgroundColor;
-
-    return JSON.stringify(obj);
-}
-
 function makeNewGrid(){
     CANVAS.nCells = CANVAS.sizeX * CANVAS.sizeY;
     let currentElement;
@@ -160,12 +152,22 @@ function makeNewGrid(){
     toggleGrid();
 }
 
+function serializeCell(cell) {
+    return JSON.stringify({ [cell.id]: cell.style.backgroundColor });
+}
+
 function saveCanvas(){
-    CANVAS.cellElements.forEach(cell => {
+    CANVAS.cellData = [];
+    //ignore transparent cells
+    CANVAS.cellElements.filter(cell => {
+        return cell.style.backgroundColor != 'transparent';
+    }).forEach(cell => {
         CANVAS.cellData.push(serializeCell(cell));
     });
+
     let savedCanvas = JSON.stringify(CANVAS,['cellSize','sizeX','sizeY','cellData']);
-    console.log(savedCanvas);
+    
+    testing(savedCanvas);
 }
 
 //BUTTONS
@@ -173,12 +175,14 @@ function toggleDrawMode(){
     activeTool = 'draw';
     drawBtn.classList.add('btn-info');
     eraseBtn.classList.remove('btn-info');
+    previousCell = null; //when changing tools you can click on the same cell
 }
 
 function toggleEraseMode(){
     activeTool = 'erase';
     eraseBtn.classList.add('btn-info');
     drawBtn.classList.remove('btn-info');
+    previousCell = null; //when changing tools you can click on the same cell
 }
 
 function toggleRainbow(){
