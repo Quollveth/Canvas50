@@ -4,6 +4,7 @@ const eraseBtn = document.getElementById('buttonErase');
 const gridBtn = document.getElementById('buttonGrid');
 const rainbowBtn = document.getElementById('buttonRainbow');
 const rainbowImg = document.getElementById('rainbowImg');
+const saveButton = document.getElementById('buttonSave');
 
 const wipeButton = document.getElementById('confirmDelete');
 
@@ -26,53 +27,37 @@ let currentColor = '#000000';
 
 let mouseDown = false;
 
-let bordersActive = true;
+let bordersActive = false;
 let rainbowActive = false;
 let previousCell = null;
 
 var CANVAS = {
-    nCells: defaultCellSize,
-    cellSize: 20,
+    cellSize: defaultCellSize,
     sizeX: defaultGridSize,
     sizeY: defaultGridSize,
-    cells: [],
-    colorData: []
+    nCells: 0,
+    //both arrays below represent the data of the cells, cellElements stores the actual DOM elements whiel cellData is serialized so it can be stored
+    cellData: [],
+    cellElements: []
 }
-
 colorInput.value = currentColor;
 
 //LISTENERS
 
 //draw
-gridContainer.addEventListener('mousedown',()=>{
-    mouseDown = true;
-});
-gridContainer.addEventListener('mouseup',()=>{
-    mouseDown = false;
-});
+gridContainer.addEventListener('mousedown',()=>{mouseDown = true;});
+gridContainer.addEventListener('mouseup',()=>{mouseDown = false;});
 
 //grid size
-gridSizeSliderX.addEventListener('input',()=>{
-    CANVAS.sizeX = gridSizeSliderX.value;
-})
-gridSizeSliderY.addEventListener('input',()=>{
-    CANVAS.sizeY = gridSizeSliderY.value;
-})
+gridSizeSliderX.addEventListener('input',()=>{CANVAS.sizeX = gridSizeSliderX.value;})
+gridSizeSliderY.addEventListener('input',()=>{CANVAS.sizeY = gridSizeSliderY.value;})
 
-gridSizeSliderX.addEventListener('mouseup',()=>{
-    updateGridSize();
-})
-gridSizeSliderY.addEventListener('mouseup',()=>{
-    updateGridSize();
-})
+gridSizeSliderX.addEventListener('mouseup',()=>{updateGridSize();})
+gridSizeSliderY.addEventListener('mouseup',()=>{updateGridSize();})
 
 //cell size
-cellSizeSlider.addEventListener('input',()=>{
-    CANVAS.cellSize = cellSizeSlider.value;
-})
-cellSizeSlider.addEventListener('mouseup',()=>{
-    updateCellSize();
-})
+cellSizeSlider.addEventListener('input',()=>{CANVAS.cellSize = cellSizeSlider.value;})
+cellSizeSlider.addEventListener('mouseup',()=>{updateCellSize();})
 
 //color
 colorInput.addEventListener('input',()=>{
@@ -81,31 +66,23 @@ colorInput.addEventListener('input',()=>{
 })
 
 //buttons
-drawBtn.addEventListener('click',()=>{
-    toggleDrawMode();
-});
-eraseBtn.addEventListener('click',()=>{
-    toggleEraseMode();
-});
-gridBtn.addEventListener('click',()=>{
-    toggleGrid();
-});
-rainbowBtn.addEventListener('click',()=>{
-    toggleRainbow();
-});
-wipeButton.addEventListener('click',()=>{
-    wipeGrid();
-});
+//yes these could be done with the onClick thing inside the buttons html, but it's not for reasons
+drawBtn.addEventListener('click',()=>{toggleDrawMode();});
+eraseBtn.addEventListener('click',()=>{toggleEraseMode();});
+gridBtn.addEventListener('click',()=>{toggleGrid();});
+rainbowBtn.addEventListener('click',()=>{toggleRainbow();});
+wipeButton.addEventListener('click',()=>{wipeGrid();});
+saveButton.addEventListener('click',()=>{saveCanvas();});
 
 //FUNCTIONS
 function updateGridSize(){
     gridSizeText.innerText = `Grid Size: ${CANVAS.sizeX} x ${CANVAS.sizeY}`;
-    initializeGrid();
+    makeNewGrid();
 }
 
 function updateCellSize(){
     cellSizeText.innerText = `Cell Size: ${CANVAS.cellSize}`;
-    CANVAS.cells.forEach((cell => {
+    CANVAS.cellElements.forEach((cell => {
         cell.style.minWidth = `${CANVAS.cellSize}px`;
         cell.style.minHeight = `${CANVAS.cellSize}px`;
     }));
@@ -125,47 +102,69 @@ function cellClick(cell,clicked = false){
                 }
                 cell.style.backgroundColor = `${currentColor}`;
             } else {
-                cell.style.backgroundColor = '#F5F5F5';
+                //eraser tool
+                cell.style.backgroundColor = 'transparent';
             }
         }
     }
 }
 
-function initializeGrid(){
-    gridContainer.innerHTML = '';
-    nCells = CANVAS.sizeX * CANVAS.sizeY;
-    let currentElement;
-    CANVAS.cells = [];
+function addCellListeners(cell){
+    cell.addEventListener('mouseover',(e)=>{
+        e.target.classList.add('cellHover');
+    });
+    cell.addEventListener('mouseout',(e)=>{
+        e.target.classList.remove('cellHover');
+    });
+    cell.addEventListener('mousemove',(e)=>{
+        cellClick(e.target);
+    });
+    cell.addEventListener('click',(e)=>{
+        cellClick(e.target,true);
+    });
+    cell.addEventListener('dragstart', e => {
+        e.preventDefault();
+    });
+}
 
-    for(let i=0;i<nCells;i++){
+function serializeCell(cell){
+    let obj = {};
+    obj.id = cell.id;
+    obj.color = cell.style.backgroundColor;
+
+    return JSON.stringify(obj);
+}
+
+function makeNewGrid(){
+    CANVAS.nCells = CANVAS.sizeX * CANVAS.sizeY;
+    let currentElement;
+    
+    gridContainer.innerHTML = '';
+    CANVAS.cellElements = [];
+    for(let i=0;i<CANVAS.nCells;i++){
         currentElement = document.createElement('div');
         currentElement.id = `cell-${i}`;
-        currentElement.classList.add('cell');
+        currentElement.style.backgroundColor = 'transparent';
         
-        if(bordersActive){
-            currentElement.classList.add('cellBorder');
-        }
-        currentElement.addEventListener('mouseover',(e)=>{
-            e.target.classList.add('cellHover');
-        });
-        currentElement.addEventListener('mouseout',(e)=>{
-            e.target.classList.remove('cellHover');
-        });
-        currentElement.addEventListener('mousemove',(e)=>{
-            cellClick(e.target);
-        });
-        currentElement.addEventListener('click',(e)=>{
-            cellClick(e.target,true);
-        });
-        currentElement.addEventListener('dragstart', e => {
-            e.preventDefault();
-        });
-        CANVAS.cells.push(currentElement);
+        addCellListeners(currentElement);
+
+        CANVAS.cellElements.push(currentElement);
         gridContainer.appendChild(currentElement);
     }
     gridContainer.style.gridTemplateColumns = `repeat(${CANVAS.sizeX}, 1fr)`;
     gridContainer.style.gridTemplateRows = `repeat(${CANVAS.sizeY}, 1fr)`;
+
     updateCellSize();
+    bordersActive = false;
+    toggleGrid();
+}
+
+function saveCanvas(){
+    CANVAS.cellElements.forEach(cell => {
+        CANVAS.cellData.push(serializeCell(cell));
+    });
+    let savedCanvas = JSON.stringify(CANVAS,['cellSize','sizeX','sizeY','cellData']);
+    console.log(savedCanvas);
 }
 
 //BUTTONS
@@ -192,24 +191,21 @@ function toggleRainbow(){
 }
 
 function toggleGrid(){
-    if(bordersActive){
-        for(let i=0;i<nCells;i++){
-            CANVAS.cells[i].classList.remove('cellBorder');
-            gridBtn.classList.remove('active');
-            bordersActive = false;
+    CANVAS.cellElements.forEach(cell => {
+        if(bordersActive){
+            cell.classList.remove('cellBorder');
         }
-    } else{        
-        for(let i=0;i<nCells;i++){
-            CANVAS.cells[i].classList.add('cellBorder');
-            gridBtn.classList.add('active');
-            bordersActive = true;
+        else {
+            cell.classList.add('cellBorder');
         }
-    }
+    });
+    bordersActive = !bordersActive;    
 }
 
 function wipeGrid(){
     previousCell = null;
-    initializeGrid();
+    makeNewGrid();
 }
 
 updateGridSize();
+toggleDrawMode();
