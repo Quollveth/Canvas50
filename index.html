@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+    crossorigin="anonymous"></script>
+
+  <title>My Webpage</title>
+  <link href="styles.css" rel="stylesheet">
+  <script src="main.js" defer></script>
+  <script src="canvas.js" defer></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-light navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#"><img src="imgs/duck-svgrepo-com.svg" width="40"></a>
+      </div>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="#">Gallery</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="nav-item"><a class="nav-link" href="#">What's This?</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="split-container">
+    <div class="scrollable">
+      <h2>Info</h2>
+      <p id="text"></p>
+      <div class="btn-group">
+        <button id="buttonDraw" data-toggle="tooltip" title="Draw" class="btn-default draw active"><img width="30px"
+            src="imgs/pencil-svgrepo-com.svg" alt="Draw"></button>
+        <button id="buttonErase" data-toggle="tooltip" title="Erase" class="btn-default"><img width="30px"
+            src="imgs/eraser-svgrepo-com.svg" alt="Erase"></button>
+        <button id="buttonGrid" data-toggle="tooltip" title="Grid Borders" class="btn-default active"><img width="30px"
+            src="imgs/grid-svgrepo-com.svg" alt="Grid Borders" style="scale:-1 1;"></button>
+        <button id="buttonRainbow" data-toggle="tooltip" title="Rainbow Mode" class="btn-default">
+          <img id="rainbowImg" width="30px" src="imgs/rainbow-svgrepo-com(2).svg" alt="Rainbow Mode" style="scale:-1 1;">
+        </button>
+        <button id="buttonWipe" data-toggle="modal" data-toggle="tooltip" title="Wipe" data-target="#wipeConfirm"
+          class="btn-default"><img width="30px" src="imgs/broom-svgrepo-com.svg" alt="Wipe"
+            style="scale:-1 1;"></button>
+      </div>
+      <div class="separator-horizontal"></div>
+      <div>
+        <p class="subtitle" id="gridSizeText">Grid Size: 32x32</p>
+        <input type="range" min="4" max="32" value="10" name="gridSize" id="gridSizeX">
+        <input type="range" min="4" max="32" value="10" name="gridSize" id="gridSizeY">
+        <p class="subtitle" id="cellSizeText">Cell Size: 20</p>
+        <input type="range" min="4" max="50" value="20" name="gridSize" id="cellSize">
+        <div class="separator-horizontal"></div>
+        <p class="subtitle">Color: <input type="color" value="#000000" name="drawColor" id="drawColor"></p>
+      </div>
+      <div id="wipeConfirm" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">This will wipe your current canvas!</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" id="confirmDelete" data-dismiss="modal">Confirm</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section class="stationary">
+      <h2>Canvas</h2>
+      <div class="grid-container">
+        <!--GRID GOES HERE, CREATED BY JS-->        
+      </div>
+    </section>
+  </div>
+</body>
+
+</html>
