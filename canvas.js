@@ -19,8 +19,9 @@ const cellSizeText = document.getElementById('cellSizeText');
 const cellSizeSlider = document.getElementById('cellSize');
 
 //VARIABLES
-const defaultGridSize = 16;
-const defaultCellSize = 20;
+const defaultX = 80;
+const defaultY = 40;
+const defaultCellSize = 12;
 
 let activeTool = 'draw';
 let currentColor = '#000000';
@@ -33,9 +34,9 @@ let previousCell = null;
 
 var CANVAS = {
     cellSize: defaultCellSize,
-    sizeX: defaultGridSize,
-    sizeY: defaultGridSize,
-    nCells: 0,
+    sizeX: defaultX,
+    sizeY: defaultY,
+    nCells: defaultX * defaultY,
     //both arrays below represent the data of the cells, cellElements stores the actual DOM elements whiel cellData is serialized so it can be stored
     cellData: [],
     cellElements: []
@@ -155,7 +156,7 @@ function makeNewGrid(){
     gridContainer.style.gridTemplateRows = `repeat(${CANVAS.sizeY}, 1fr)`;
 
     updateCellSize();
-    bordersActive = false;
+    bordersActive = true;
     toggleGrid();
 }
 
@@ -207,5 +208,8 @@ function wipeGrid(){
     makeNewGrid();
 }
 
+gridSizeSliderX.value = defaultX;
+gridSizeSliderY.value = defaultY;
+cellSizeSlider.value = defaultCellSize;
 updateGridSize();
 toggleDrawMode();

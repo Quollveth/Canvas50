@@ -22,7 +22,7 @@
   <nav class="navbar navbar-light navbar-expand-lg fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#"><img src="imgs/duck-svgrepo-com.svg" width="40"></a>
+        <a class="navbar-brand" data-toggle="tooltip" title="Home" href="#"><img src="imgs/duck-svgrepo-com.svg" width="40" alt="Home"></a>
       </div>
       <ul class="navbar-nav mr-auto">
         <li class="nav-item"><a class="nav-link" href="#">Gallery</a></li>
@@ -66,10 +66,10 @@
       <div class="separator-horizontal"></div>
       <div>
         <p class="subtitle" id="gridSizeText">Grid Size: 32x32</p>
-        <input type="range" min="4" max="32" value="10" name="gridSize" id="gridSizeX">
-        <input type="range" min="4" max="32" value="10" name="gridSize" id="gridSizeY">
+        <input type="range" min="4" max="100" name="gridSize" id="gridSizeX">
+        <input type="range" min="4" max="100" name="gridSize" id="gridSizeY">
         <p class="subtitle" id="cellSizeText">Cell Size: 20</p>
-        <input type="range" min="4" max="50" value="20" name="gridSize" id="cellSize">
+        <input type="range" min="4" max="50" name="gridSize" id="cellSize">
         <div class="separator-horizontal"></div>
         <p class="subtitle">Color: <input type="color" value="#000000" name="drawColor" id="drawColor"></p>
       </div>
