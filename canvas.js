@@ -119,6 +119,7 @@ function cellClick(cell,clicked = false){
             previousCell = cell.id;
             if(activeTool == 'draw'){
                 if(rainbowActive){
+                    //make a random color
                     currentColor = `#${((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0")}`;
                     colorInput.value = currentColor;
                 }
