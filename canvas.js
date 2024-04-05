@@ -18,19 +18,26 @@ const cellSizeText = document.getElementById('cellSizeText');
 const cellSizeSlider = document.getElementById('cellSize');
 
 //VARIABLES
-const defaultSize = 16;
+const defaultGridSize = 16;
+const defaultCellSize = 20;
 
 let activeTool = 'draw';
-let sizeX = defaultSize;
-let sizeY = defaultSize;
 let currentColor = '#000000';
-let nCells;
-let cells = [];
+
 let mouseDown = false;
+
 let bordersActive = true;
 let rainbowActive = false;
 let previousCell = null;
-let cellSize = 20;
+
+var CANVAS = {
+    nCells: defaultCellSize,
+    cellSize: 20,
+    sizeX: defaultGridSize,
+    sizeY: defaultGridSize,
+    cells: [],
+    colorData: []
+}
 
 colorInput.value = currentColor;
 
@@ -46,10 +53,10 @@ gridContainer.addEventListener('mouseup',()=>{
 
 //grid size
 gridSizeSliderX.addEventListener('input',()=>{
-    sizeX = gridSizeSliderX.value;
+    CANVAS.sizeX = gridSizeSliderX.value;
 })
 gridSizeSliderY.addEventListener('input',()=>{
-    sizeY = gridSizeSliderY.value;
+    CANVAS.sizeY = gridSizeSliderY.value;
 })
 
 gridSizeSliderX.addEventListener('mouseup',()=>{
@@ -61,7 +68,7 @@ gridSizeSliderY.addEventListener('mouseup',()=>{
 
 //cell size
 cellSizeSlider.addEventListener('input',()=>{
-    cellSize = cellSizeSlider.value;
+    CANVAS.cellSize = cellSizeSlider.value;
 })
 cellSizeSlider.addEventListener('mouseup',()=>{
     updateCellSize();
@@ -92,15 +99,15 @@ wipeButton.addEventListener('click',()=>{
 
 //FUNCTIONS
 function updateGridSize(){
-    gridSizeText.innerText = `Grid Size: ${sizeX} x ${sizeY}`;
+    gridSizeText.innerText = `Grid Size: ${CANVAS.sizeX} x ${CANVAS.sizeY}`;
     initializeGrid();
 }
 
 function updateCellSize(){
-    cellSizeText.innerText = `Cell Size: ${cellSize}`;
-    cells.forEach((cell => {
-        cell.style.minWidth = `${cellSize}px`;
-        cell.style.minHeight = `${cellSize}px`;
+    cellSizeText.innerText = `Cell Size: ${CANVAS.cellSize}`;
+    CANVAS.cells.forEach((cell => {
+        cell.style.minWidth = `${CANVAS.cellSize}px`;
+        cell.style.minHeight = `${CANVAS.cellSize}px`;
     }));
 }
 
@@ -125,9 +132,9 @@ function cellClick(cell,clicked = false){
 
 function initializeGrid(){
     gridContainer.innerHTML = '';
-    nCells = sizeX * sizeY;
+    nCells = CANVAS.sizeX * CANVAS.sizeY;
     let currentElement;
-    cells = [];
+    CANVAS.cells = [];
 
     for(let i=0;i<nCells;i++){
         currentElement = document.createElement('div');
@@ -152,11 +159,11 @@ function initializeGrid(){
         currentElement.addEventListener('dragstart', e => {
             e.preventDefault();
         });
-        cells.push(currentElement);
+        CANVAS.cells.push(currentElement);
         gridContainer.appendChild(currentElement);
     }
-    gridContainer.style.gridTemplateColumns = `repeat(${sizeX}, 1fr)`;
-    gridContainer.style.gridTemplateRows = `repeat(${sizeY}, 1fr)`;
+    gridContainer.style.gridTemplateColumns = `repeat(${CANVAS.sizeX}, 1fr)`;
+    gridContainer.style.gridTemplateRows = `repeat(${CANVAS.sizeY}, 1fr)`;
     updateCellSize();
 }
 
@@ -186,13 +193,13 @@ function toggleRainbow(){
 function toggleGrid(){
     if(bordersActive){
         for(let i=0;i<nCells;i++){
-            cells[i].classList.remove('cellBorder');
+            CANVAS.cells[i].classList.remove('cellBorder');
             gridBtn.classList.remove('active');
             bordersActive = false;
         }
     } else{        
         for(let i=0;i<nCells;i++){
-            cells[i].classList.add('cellBorder');
+            CANVAS.cells[i].classList.add('cellBorder');
             gridBtn.classList.add('active');
             bordersActive = true;
         }
