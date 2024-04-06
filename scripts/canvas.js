@@ -1,4 +1,18 @@
-// DOM ELEMENTS
+const defaultX = 80;
+const defaultY = 40;
+const defaultCellSize = 10;
+
+var CANVAS = {
+    cellSize: defaultCellSize,
+    sizeX: defaultX,
+    sizeY: defaultY,
+    nCells: defaultX * defaultY,
+    //both arrays below represent the data of the cells, cellElements stores the actual DOM elements whiel cellData is serialized so it can be stored
+    cellData: {},
+    cellElements: []
+}
+
+//DOM ELEMENTS
 const drawBtn = document.getElementById('buttonDraw');
 const eraseBtn = document.getElementById('buttonErase');
 const gridBtn = document.getElementById('buttonGrid');
@@ -19,10 +33,6 @@ const cellSizeText = document.getElementById('cellSizeText');
 const cellSizeSlider = document.getElementById('cellSize');
 
 //VARIABLES
-const defaultX = 80;
-const defaultY = 40;
-const defaultCellSize = 10;
-
 let activeTool = 'draw';
 let currentColor = '#000000';
 
@@ -32,17 +42,9 @@ let bordersActive = false;
 let rainbowActive = false;
 let previousCell = null;
 
-var CANVAS = {
-    cellSize: defaultCellSize,
-    sizeX: defaultX,
-    sizeY: defaultY,
-    nCells: defaultX * defaultY,
-    //both arrays below represent the data of the cells, cellElements stores the actual DOM elements whiel cellData is serialized so it can be stored
-    cellData: {},
-    cellElements: []
-}
-colorInput.value = currentColor;
-
+//js now has a preprocessor yay
+//now i can load this file in multiple pages and the browser won't complain about 300 undefined references
+if(document.getElementById('CANVAS-HTML')){
 //LISTENERS
 
 //draw
@@ -74,6 +76,10 @@ gridBtn.addEventListener('click',()=>{toggleGrid();});
 rainbowBtn.addEventListener('click',()=>{toggleRainbow();});
 wipeButton.addEventListener('click',()=>{wipeGrid();});
 saveButton.addEventListener('click',()=>{saveCanvas();});
+
+initialize();
+}
+//ENDIF
 
 //FUNCTIONS
 function updateGridSize(){
@@ -227,8 +233,10 @@ function wipeGrid(){
     makeNewGrid();
 }
 
-gridSizeSliderX.value = defaultX;
-gridSizeSliderY.value = defaultY;
-cellSizeSlider.value = defaultCellSize;
-updateGridSize();
-toggleDrawMode();
+function initialize(){
+    gridSizeSliderX.value = defaultX;
+    gridSizeSliderY.value = defaultY;
+    cellSizeSlider.value = defaultCellSize;
+    updateGridSize();
+    toggleDrawMode();
+}
