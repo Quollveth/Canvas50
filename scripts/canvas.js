@@ -164,10 +164,8 @@ function saveCanvas(){
     }).forEach(cell => {
         CANVAS.cellData.push(serializeCell(cell));
     });
-
-    let savedCanvas = JSON.stringify(CANVAS,['cellSize','sizeX','sizeY','cellData']);
     
-    testing(savedCanvas);
+    saveCanvasLocal(CANVAS);
 }
 
 //BUTTONS
