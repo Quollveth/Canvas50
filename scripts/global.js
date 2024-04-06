@@ -1,4 +1,19 @@
 //GLOBAL SCRIPT
+//this is now a header file
+
+const defaultX = 80;
+const defaultY = 40;
+const defaultCellSize = 10;
+
+var CANVAS = {
+  cellSize: defaultCellSize,
+  sizeX: defaultX,
+  sizeY: defaultY,
+  nCells: defaultX * defaultY,
+  //both arrays below represent the data of the cells, cellElements stores the actual DOM elements whiel cellData is serialized so it can be stored
+  cellData: {},
+  cellElements: []
+}
 
 //starts up all tooltips
 $(document).ready(function(){
@@ -40,8 +55,4 @@ function saveCanvasLocal(canvas){
   canvasArray.push(newCanvas);
 
   localStorage.setItem(canvasStorageName,JSON.stringify(canvasArray,function replacer(key, value) { return value}));
-}
-
-function test(){
-  console.log(localStorage.getItem(canvasStorageName));
 }

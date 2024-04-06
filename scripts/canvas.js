@@ -1,17 +1,3 @@
-const defaultX = 80;
-const defaultY = 40;
-const defaultCellSize = 10;
-
-var CANVAS = {
-    cellSize: defaultCellSize,
-    sizeX: defaultX,
-    sizeY: defaultY,
-    nCells: defaultX * defaultY,
-    //both arrays below represent the data of the cells, cellElements stores the actual DOM elements whiel cellData is serialized so it can be stored
-    cellData: {},
-    cellElements: []
-}
-
 //DOM ELEMENTS
 const drawBtn = document.getElementById('buttonDraw');
 const eraseBtn = document.getElementById('buttonErase');
@@ -46,7 +32,6 @@ let previousCell = null;
 //now i can load this file in multiple pages and the browser won't complain about 300 undefined references
 if(document.getElementById('CANVAS-HTML')){
 //LISTENERS
-
 //draw
 gridContainer.addEventListener('mousedown',()=>{mouseDown = true;});
 gridContainer.addEventListener('mouseup',()=>{mouseDown = false;});
