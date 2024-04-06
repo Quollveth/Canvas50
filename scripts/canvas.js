@@ -128,24 +128,26 @@ function addCellListeners(cell){
     });
 }
 
-function makeNewGrid(){
+function makeNewGrid(container = gridContainer,clickable = true){
     CANVAS.nCells = CANVAS.sizeX * CANVAS.sizeY;
     let currentElement;
     
-    gridContainer.innerHTML = '';
+    container.innerHTML = '';
     CANVAS.cellElements = [];
     for(let i=0;i<CANVAS.nCells;i++){
         currentElement = document.createElement('div');
         currentElement.id = `cell-${i}`;
         currentElement.style.backgroundColor = 'transparent';
         
-        addCellListeners(currentElement);
+        if(clickable){
+            addCellListeners(currentElement);
+        }
 
         CANVAS.cellElements.push(currentElement);
-        gridContainer.appendChild(currentElement);
+        container.appendChild(currentElement);
     }
-    gridContainer.style.gridTemplateColumns = `repeat(${CANVAS.sizeX}, 1fr)`;
-    gridContainer.style.gridTemplateRows = `repeat(${CANVAS.sizeY}, 1fr)`;
+    container.style.gridTemplateColumns = `repeat(${CANVAS.sizeX}, 1fr)`;
+    container.style.gridTemplateRows = `repeat(${CANVAS.sizeY}, 1fr)`;
 
     updateCellSize();
     bordersActive = true;
