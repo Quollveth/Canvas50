@@ -5,9 +5,25 @@ $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();
 });
 
+//this is stupid
+function copyObject(obj){
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+
+  let copy = Array.isArray(obj) ? [] : {};
+
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      copy[key] = copyObject(obj[key]);
+    }
+  }
+
+  return copy;
+}
+
 //local storage for canvas
 const canvasStorageName = 'savedCanvas';
-localStorage.removeItem(canvasStorageName);
 
 function saveCanvasLocal(canvas){
   let saved = localStorage.getItem(canvasStorageName);
@@ -17,14 +33,15 @@ function saveCanvasLocal(canvas){
     canvasArray = JSON.parse(saved);
   }
 
-  let newCanvas = JSON.parse(JSON.stringify(canvas));
-  //there has to be a better way to copy an object without a reference so the new 2 lines don't delete the fields from the original one
+  let newCanvas = copyObject(canvas);
   delete newCanvas.nCells;
   delete newCanvas.cellElements;
 
   canvasArray.push(newCanvas);
 
-  localStorage.setItem(canvasStorageName,JSON.stringify(canvasArray));
+  localStorage.setItem(canvasStorageName,JSON.stringify(canvasArray,function replacer(key, value) { return value}));
+}
 
+function test(){
   console.log(localStorage.getItem(canvasStorageName));
 }

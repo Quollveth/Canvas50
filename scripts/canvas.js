@@ -21,7 +21,7 @@ const cellSizeSlider = document.getElementById('cellSize');
 //VARIABLES
 const defaultX = 80;
 const defaultY = 40;
-const defaultCellSize = 12;
+const defaultCellSize = 10;
 
 let activeTool = 'draw';
 let currentColor = '#000000';
@@ -38,7 +38,7 @@ var CANVAS = {
     sizeY: defaultY,
     nCells: defaultX * defaultY,
     //both arrays below represent the data of the cells, cellElements stores the actual DOM elements whiel cellData is serialized so it can be stored
-    cellData: [],
+    cellData: {},
     cellElements: []
 }
 colorInput.value = currentColor;
@@ -152,20 +152,35 @@ function makeNewGrid(){
     toggleGrid();
 }
 
-function serializeCell(cell) {
-    return JSON.stringify({ [cell.id]: cell.style.backgroundColor });
-}
-
 function saveCanvas(){
-    CANVAS.cellData = [];
+    CANVAS.cellData = {};
     //ignore transparent cells
     CANVAS.cellElements.filter(cell => {
         return cell.style.backgroundColor != 'transparent';
     }).forEach(cell => {
-        CANVAS.cellData.push(serializeCell(cell));
+        CANVAS.cellData[cell.id] = cell.style.backgroundColor;
     });
-    
     saveCanvasLocal(CANVAS);
+}
+
+function loadCanvas(toLoad){
+    gridSizeSliderX.value = toLoad.sizeX;
+    gridSizeSliderY.value = toLoad.sizeY;
+    cellSizeSlider.value = toLoad.cellSize;
+    gridSizeText.innerText = `Grid Size: ${toLoad.sizeX} x ${toLoad.sizeY}`;
+    cellSizeText.innerText = `Cell Size: ${toLoad.cellSize}`;
+
+    CANVAS.sizeX = toLoad.sizeX;
+    CANVAS.sizeY = toLoad.sizeY;
+    CANVAS.cellSize = toLoad.cellSize;
+    
+    makeNewGrid();
+
+    CANVAS.cellElements.filter(cell => {
+        return cell.id in toLoad.cellData;
+    }).forEach(cell => {
+        cell.style.backgroundColor = toLoad.cellData[cell.id];
+    });
 }
 
 //BUTTONS
