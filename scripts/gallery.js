@@ -4,8 +4,16 @@ const carouselBody = document.getElementById('galleryCarousel');
 const carouselWrapper = document.getElementById('galleryWrapper');
 const indicatorsWrapper = document.getElementById('carousel-indicators');
 
+var savedCanvas = JSON.parse(localStorage.getItem(canvasStorageName));
 
-let savedCanvas = JSON.parse(localStorage.getItem(canvasStorageName));
+if(savedCanvas == null){
+    addCarouselItem();
+}
+else{
+    savedCanvas.forEach(e => {
+        addCarouselItem(e);
+    });
+}
 
 function addCarouselItem(hasCanvas = null){
     let newItem = document.createElement('div');
@@ -37,6 +45,7 @@ function addCarouselItem(hasCanvas = null){
         options.appendChild(btnDel);
 
         newItem.appendChild(options);
+        
     } else {
         itemBody = document.createElement('img');
         itemBody.src = 'imgs/placeholder.png';
@@ -66,5 +75,12 @@ function deleteImage(id){
 }
 
 function createCanvas(toCreate){
+    let container = document.createElement('div');
+    container.classList.add('grid-container');
+    loadCanvas(toCreate,container,false);
 
+    let body = document.createElement('div');
+    body.classList.add('carousel-canvas');
+    body.appendChild(container);
+    return body;
 }

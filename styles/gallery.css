@@ -1,4 +1,16 @@
 #galleryCarousel{
     border: 1px solid black;
-    max-width: 500px;
+    width: 500px;
+    height: 500px;
+}
+
+.carousel-canvas{
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-container{
+    width: 500px;
+    height: 500px;
+    display: grid;
 }

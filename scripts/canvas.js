@@ -30,7 +30,10 @@ let previousCell = null;
 
 //js now has a preprocessor yay
 //now i can load this file in multiple pages and the browser won't complain about 300 undefined references
-if(document.getElementById('CANVAS-HTML')){
+//in any other page this will be null and all ifs will fail
+const canvasTab = document.getElementById('CANVAS-HTML');
+
+if(canvasTab){
 //LISTENERS
 //draw
 gridContainer.addEventListener('mousedown',()=>{mouseDown = true;});
@@ -68,12 +71,12 @@ initialize();
 
 //FUNCTIONS
 function updateGridSize(){
-    gridSizeText.innerText = `Grid Size: ${CANVAS.sizeX} x ${CANVAS.sizeY}`;
+    if(canvasTab){updateUI();}
     makeNewGrid();
 }
 
 function updateCellSize(){
-    cellSizeText.innerText = `Cell Size: ${CANVAS.cellSize}`;
+    if(canvasTab){updateUI();}
     CANVAS.cellElements.forEach((cell => {
         cell.style.minWidth = `${CANVAS.cellSize}px`;
         cell.style.minHeight = `${CANVAS.cellSize}px`;
@@ -156,24 +159,27 @@ function saveCanvas(){
     saveCanvasLocal(CANVAS);
 }
 
-function loadCanvas(toLoad){
-    gridSizeSliderX.value = toLoad.sizeX;
-    gridSizeSliderY.value = toLoad.sizeY;
-    cellSizeSlider.value = toLoad.cellSize;
-    gridSizeText.innerText = `Grid Size: ${toLoad.sizeX} x ${toLoad.sizeY}`;
-    cellSizeText.innerText = `Cell Size: ${toLoad.cellSize}`;
-
+function loadCanvas(toLoad,container = gridContainer,clickable = true){
+    if(canvasTab){updateUI();}
     CANVAS.sizeX = toLoad.sizeX;
     CANVAS.sizeY = toLoad.sizeY;
     CANVAS.cellSize = toLoad.cellSize;
     
-    makeNewGrid();
+    makeNewGrid(container,clickable);
 
     CANVAS.cellElements.filter(cell => {
         return cell.id in toLoad.cellData;
     }).forEach(cell => {
         cell.style.backgroundColor = toLoad.cellData[cell.id];
     });
+}
+
+function updateUI(){
+    gridSizeSliderX.value = CANVAS.sizeX;
+    gridSizeSliderY.value = CANVAS.sizeY;
+    cellSizeSlider.value = CANVAS.cellSize;
+    gridSizeText.innerText = `Grid Size: ${CANVAS.sizeX} x ${CANVAS.sizeY}`;
+    cellSizeText.innerText = `Cell Size: ${CANVAS.cellSize}`;
 }
 
 //BUTTONS
