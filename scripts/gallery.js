@@ -15,32 +15,33 @@ function addCarouselItem(hasCanvas = null){
 
     if(hasCanvas){
         itemBody = createCanvas(hasCanvas);
+
+        let options = document.createElement('div');
+        options.classList.add('carousel-caption');
+        
+        let btnLoad = document.createElement('button');
+        btnLoad.classList.add('btn-default');
+        btnLoad.addEventListener('click',e => {
+            loadImage(e.target.parentNode.id);
+        });
+        btnLoad.innerText = 'Load';
+    
+        let btnDel = document.createElement('button');
+        btnDel.classList.add('btn-default');
+        btnDel.addEventListener('click',e => {
+            deleteImage(e.target.parentNode.id);
+        });
+        btnDel.innerText = 'Delete';
+    
+        options.appendChild(btnLoad);
+        options.appendChild(btnDel);
+
+        newItem.appendChild(options);
     } else {
         itemBody = document.createElement('img');
-        itemBody.src = 'https://via.placeholder.com/500';
+        itemBody.src = 'imgs/placeholder.png';
     }
-
-    let options = document.createElement('div');
-    options.classList.add('carousel-caption');
     
-    let btnLoad = document.createElement('button');
-    btnLoad.classList.add('btn-default');
-    btnLoad.addEventListener('click',e => {
-        loadImage(e.target.parentNode.id);
-    });
-    btnLoad.innerText = 'Load';
-
-    let btnDel = document.createElement('button');
-    btnDel.classList.add('btn-default');
-    btnDel.addEventListener('click',e => {
-        deleteImage(e.target.parentNode.id);
-    });
-    btnDel.innerText = 'Delete';
-
-    options.appendChild(btnLoad);
-    options.appendChild(btnDel);
-    
-    newItem.appendChild(options);
     newItem.appendChild(itemBody);
     
     let indicator = document.createElement('li');
@@ -56,4 +57,14 @@ function addCarouselItem(hasCanvas = null){
     indicatorsWrapper.appendChild(indicator);
 }
 
-console.log(CANVAS);
+function loadImage(id){
+
+}
+
+function deleteImage(id){
+
+}
+
+function createCanvas(toCreate){
+
+}
