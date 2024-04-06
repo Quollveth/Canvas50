@@ -7,18 +7,40 @@ const indicatorsWrapper = document.getElementById('carousel-indicators');
 
 let savedCanvas = JSON.parse(localStorage.getItem(canvasStorageName));
 
-function addCarouselItem(){
+function addCarouselItem(hasCanvas = null){
     let newItem = document.createElement('div');
     newItem.id = `ci-${carouselWrapper.children.length}`;
     newItem.classList.add('carousel-item');
     let itemBody;
 
-    itemBody = document.createElement('img');
-    itemBody.src = 'https://via.placeholder.com/500';
-    let temp = document.createElement('p');
-    temp.innerText = newItem.id;
-    newItem.appendChild(temp);
+    if(hasCanvas){
+        itemBody = createCanvas(hasCanvas);
+    } else {
+        itemBody = document.createElement('img');
+        itemBody.src = 'https://via.placeholder.com/500';
+    }
 
+    let options = document.createElement('div');
+    options.classList.add('carousel-caption');
+    
+    let btnLoad = document.createElement('button');
+    btnLoad.classList.add('btn-default');
+    btnLoad.addEventListener('click',e => {
+        loadImage(e.target.parentNode.id);
+    });
+    btnLoad.innerText = 'Load';
+
+    let btnDel = document.createElement('button');
+    btnDel.classList.add('btn-default');
+    btnDel.addEventListener('click',e => {
+        deleteImage(e.target.parentNode.id);
+    });
+    btnDel.innerText = 'Delete';
+
+    options.appendChild(btnLoad);
+    options.appendChild(btnDel);
+    
+    newItem.appendChild(options);
     newItem.appendChild(itemBody);
     
     let indicator = document.createElement('li');
