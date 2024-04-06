@@ -76,7 +76,14 @@ function deleteImage(id){
 
 function createCanvas(toCreate){
     let container = document.createElement('div');
-    container.classList.add('grid-container');
+
+    container.style.display = 'grid';
+
+    if(toCreate.sizeX == toCreate.sizeY){
+        container.style.width = '500px';
+        container.style.height = '500px';
+    }
+
     loadCanvas(toCreate,container,false);
 
     let body = document.createElement('div');
