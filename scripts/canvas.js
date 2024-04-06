@@ -18,6 +18,9 @@ const gridSizeSliderY = document.getElementById('gridSizeY');
 const cellSizeText = document.getElementById('cellSizeText');
 const cellSizeSlider = document.getElementById('cellSize');
 
+const makeSquareX = document.getElementById('makeSquareX');
+const makeSquareY = document.getElementById('makeSquareY');
+
 //VARIABLES
 let activeTool = 'draw';
 let currentColor = '#000000';
@@ -64,6 +67,8 @@ gridBtn.addEventListener('click',()=>{toggleGrid();});
 rainbowBtn.addEventListener('click',()=>{toggleRainbow();});
 wipeButton.addEventListener('click',()=>{wipeGrid();});
 saveButton.addEventListener('click',()=>{saveCanvas();});
+makeSquareX.addEventListener('click',()=>{makeGridSquare(true);});
+makeSquareY.addEventListener('click',()=>{makeGridSquare(false);});
 
 initialize();
 }
@@ -221,6 +226,16 @@ function toggleGrid(){
 
 function wipeGrid(){
     previousCell = null;
+    makeNewGrid();
+}
+
+function makeGridSquare(fromX){
+    if(fromX){
+        CANVAS.sizeY = CANVAS.sizeX;
+    }
+    else {
+        CANVAS.sizeX = CANVAS.sizeY;
+    }
     makeNewGrid();
 }
 
