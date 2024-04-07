@@ -1,0 +1,7 @@
+## What is this
+This began as the solution for one of the projects in [The Odin Project](https://www.theodinproject.com/) to create an "Etch a Sketch" website with a grid you could draw on. <br> Later when taking the [CS50](https://cs50.harvard.edu/) course i improved the website during the html/css section. That section assignment involved creating a website that fit certain criteria:
+- Has at least 4 html pages
+- Utilizes one or more features from Bootstrap
+- Contains custom css styles
+- Contains custom javascript code
+I reused the etch a sketch project and added extra pages to fit the spec, including a functioning gallery one could use to save a canvas and share it.
