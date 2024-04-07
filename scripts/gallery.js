@@ -23,6 +23,7 @@ exportButton.addEventListener('click',()=>{exportCanvas();});
 importButton.addEventListener('click',()=>{importCanvas();});
 
 sessionStorage.setItem(loadCanvas,'null');
+exportField.value = '';
 if(savedCanvas == null){
     addCarouselItem();
 
@@ -123,7 +124,16 @@ function exportCanvas(){
 }
 
 function importCanvas(){
+    let toLoad = exportField.value;
+    if(toLoad == ''){
+        return;
+    }
+    toLoad = atob(toLoad);
+    console.log(toLoad);
 
+    let newCanvas = JSON.parse(toLoad);
+    saveCanvasLocal(newCanvas);
+    location.reload();
 }
 
 function createCanvas(toCreate){
