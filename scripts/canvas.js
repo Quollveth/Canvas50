@@ -245,4 +245,10 @@ function initialize(){
     cellSizeSlider.value = defaultCellSize;
     updateGridSize();
     toggleDrawMode();
+
+    let hasToLoad = sessionStorage.getItem(loadCanvas)
+    console.log(hasToLoad);
+    if(hasToLoad != 'null'){
+        loadCanvas(JSON.parse(hasToLoad));
+    }
 }

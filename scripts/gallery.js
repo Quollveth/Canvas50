@@ -4,10 +4,31 @@ const carouselBody = document.getElementById('galleryCarousel');
 const carouselWrapper = document.getElementById('galleryWrapper');
 const indicatorsWrapper = document.getElementById('carousel-indicators');
 
+const loadButton = document.getElementById('buttonLoad');
+const deleteButton = document.getElementById('confirmDelete');
+
+const canvasSizeText = document.getElementById('canvasSize');
+
+const exportField = document.getElementById('exportField');
+const exportButton = document.getElementById('exportString');
+const importButton = document.getElementById('importString');
+
 var savedCanvas = JSON.parse(localStorage.getItem(canvasStorageName));
 
+// BUTTON EVENTS
+loadButton.addEventListener('click',()=>{loadImage();});
+deleteButton.addEventListener('click',()=>{deleteImage();});
+
+exportButton.addEventListener('click',()=>{exportCanvas();});
+importButton.addEventListener('click',()=>{importCanvas();});
+
+sessionStorage.setItem(loadCanvas,'null');
 if(savedCanvas == null){
     addCarouselItem();
+
+    loadButton.classList.add('disabled');
+    deleteButton.classList.add('disabled');
+    exportButton.classList.add('disabled');
 }
 else{
     savedCanvas.forEach(e => {
@@ -43,11 +64,38 @@ function addCarouselItem(hasCanvas = null){
     indicatorsWrapper.appendChild(indicator);
 }
 
-function loadImage(id){
+function getCurrentCanvas(){
+    let current;
+    //only one element can be active at a time
+    current = Array.from(carouselWrapper.children).find(e => {
+        return e.classList.contains('active');
+    });
+    return (current)?current.id : null;
+}
+
+function loadImage(){
+    let index = getCurrentCanvas();
+    if(!index){ //is null
+        return;
+    }
+    index = index.slice(3); //index starts at ci-0 and goes up
+    
+    let toLoad = savedCanvas[parseInt(index)];
+
+    sessionStorage.setItem(loadCanvas,JSON.stringify(toLoad));
+
+    location.href = '/';
+}
+
+function deleteImage(){
 
 }
 
-function deleteImage(id){
+function exportCanvas(){
+
+}
+
+function importCanvas(){
 
 }
 
