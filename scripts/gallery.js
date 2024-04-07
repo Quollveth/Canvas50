@@ -79,9 +79,28 @@ function createCanvas(toCreate){
 
     container.style.display = 'grid';
 
+    //square grid
     if(toCreate.sizeX == toCreate.sizeY){
         container.style.width = '500px';
         container.style.height = '500px';
+    }
+    //rectangular grid
+    else {
+        //make the longer side fill the container, center it and the smaller side has to cope and seethe
+        
+        //is it wide or tall?
+        if (toCreate.sizeX < toCreate.sizeY) {
+            //wide
+            container.style.width = '500px';
+            container.style.height = `${(toCreate.sizeY / toCreate.sizeX) * 500}px`; // Maintain aspect ratio
+            container.style.marginTop = `${(500 - (toCreate.sizeY / toCreate.sizeX) * 500) / 2}px`; // Center vertically
+        }
+        else {
+            //tall
+            container.style.height = '500px';
+            container.style.width = `${(toCreate.sizeX / toCreate.sizeY) * 500}px`; // Maintain aspect ratio
+            container.style.marginLeft = `${(500 - (toCreate.sizeX / toCreate.sizeY) * 500) / 2}px`; // Center horizontally
+        }
     }
 
     loadCanvas(toCreate,container,false);
