@@ -22,30 +22,7 @@ function addCarouselItem(hasCanvas = null){
     let itemBody;
 
     if(hasCanvas){
-        itemBody = createCanvas(hasCanvas);
-
-        let options = document.createElement('div');
-        options.classList.add('carousel-caption');
-        
-        let btnLoad = document.createElement('button');
-        btnLoad.classList.add('btn-default');
-        btnLoad.addEventListener('click',e => {
-            loadImage(e.target.parentNode.id);
-        });
-        btnLoad.innerText = 'Load';
-    
-        let btnDel = document.createElement('button');
-        btnDel.classList.add('btn-default');
-        btnDel.addEventListener('click',e => {
-            deleteImage(e.target.parentNode.id);
-        });
-        btnDel.innerText = 'Delete';
-    
-        options.appendChild(btnLoad);
-        options.appendChild(btnDel);
-
-        newItem.appendChild(options);
-        
+        itemBody = createCanvas(hasCanvas);        
     } else {
         itemBody = document.createElement('img');
         itemBody.src = 'imgs/placeholder.png';
@@ -87,7 +64,7 @@ function createCanvas(toCreate){
     //rectangular grid
     else {
         //make the longer side fill the container, center it and the smaller side has to cope and seethe
-        
+        container.style.border = '2px dashed rgba(0, 0, 0, 0.8)';
         //is it wide or tall?
         if (toCreate.sizeX < toCreate.sizeY) {
             //wide
