@@ -33,9 +33,12 @@ let previousCell = null;
 
 //js now has a preprocessor yay
 //now i can load this file in multiple pages and the browser won't complain about 300 undefined references
-//in any other page this will be null and all ifs will fail
+
+//look for the CANVAS-HTML element that should be in the page
+//if it's not found the value of canvasTab will be null and all that is skipped since js evaluates null as false in boolean expression
 const canvasTab = document.getElementById('CANVAS-HTML');
 
+// #ifdef
 if(canvasTab){
 //LISTENERS
 //draw
@@ -72,7 +75,7 @@ makeSquareY.addEventListener('click',()=>{makeGridSquare(false);});
 
 initialize();
 }
-//ENDIF
+// #endif
 
 //FUNCTIONS
 function updateGridSize(){
