@@ -64,7 +64,7 @@ function addCarouselItem(hasCanvas = null){
     indicatorsWrapper.appendChild(indicator);
 }
 
-function getCurrentCanvas(){
+function getCanvasIndex(){
     let current;
     //only one element can be active at a time
     current = Array.from(carouselWrapper.children).find(e => {
@@ -73,17 +73,21 @@ function getCurrentCanvas(){
     return (current)?current.id : null;
 }
 
-function loadImage(){
-    let index = getCurrentCanvas();
+function getCurrentCanvas(){
+    let index = getCanvasIndex();
     if(!index){ //is null
         return;
     }
     index = index.slice(3); //index starts at ci-0 and goes up
     
-    let toLoad = savedCanvas[parseInt(index)];
+    return savedCanvas[parseInt(index)];
+}
+
+function loadImage(){    
+    let toLoad = getCurrentCanvas();
 
     sessionStorage.setItem(loadCanvas,JSON.stringify(toLoad));
-
+    
     location.href = '/';
 }
 
