@@ -1,7 +1,7 @@
 //GLOBAL SCRIPT
 //this is now a header file
 
-const defaultX = 80;
+const defaultX = 40;
 const defaultY = 40;
 const defaultCellSize = 10;
 const canvasStorageName = 'savedCanvas';

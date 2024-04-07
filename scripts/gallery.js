@@ -26,9 +26,9 @@ sessionStorage.setItem(loadCanvas,'null');
 if(savedCanvas == null){
     addCarouselItem();
 
-    loadButton.classList.add('disabled');
-    deleteButton.classList.add('disabled');
-    exportButton.classList.add('disabled');
+    loadButton.disabled = true;
+    deleteButton.disabled = true;
+    exportButton.disabled = true;
 }
 else{
     savedCanvas.forEach(e => {
@@ -76,7 +76,7 @@ function getCanvasIndex(){
 function getCurrentCanvas(){
     let index = getCanvasIndex();
     if(!index){ //is null
-        return;
+        return null;
     }
     index = index.slice(3); //index starts at ci-0 and goes up
     
@@ -85,15 +85,34 @@ function getCurrentCanvas(){
 
 function loadImage(){    
     let toLoad = getCurrentCanvas();
+    if(!toLoad){
+        return;
+    }
 
     sessionStorage.setItem(loadCanvas,JSON.stringify(toLoad));
-    
+
     location.href = '/';
 }
 
-function deleteImage(){
+var savedCanvas = JSON.parse(localStorage.getItem(canvasStorageName));
 
-}
+function deleteImage(){
+    let index = getCanvasIndex();
+    if(!index){ //is null
+        return null;
+    }
+    index = index.slice(3); //index starts at ci-0 and goes up
+
+    savedCanvas.splice(parseInt(index),1);
+
+    localStorage.removeItem(canvasStorageName);
+
+    savedCanvas.forEach(e => {
+        console.log(e);
+        saveCanvasLocal(e);
+    });
+    location.reload();
+}  
 
 function exportCanvas(){
 
