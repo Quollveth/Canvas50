@@ -94,8 +94,6 @@ function loadImage(){
     location.href = '/';
 }
 
-var savedCanvas = JSON.parse(localStorage.getItem(canvasStorageName));
-
 function deleteImage(){
     let index = getCanvasIndex();
     if(!index){ //is null
@@ -115,7 +113,13 @@ function deleteImage(){
 }  
 
 function exportCanvas(){
-
+    let toLoad = getCurrentCanvas();
+    if(!toLoad){
+        return;
+    }
+    let string = JSON.stringify(toLoad,function replacer(key, value) { return value});
+    string = btoa(string);
+    exportField.value = string;
 }
 
 function importCanvas(){
